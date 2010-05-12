@@ -1,0 +1,401 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[11pt]{article}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}
+    {\minipage[t]{\linewidth}\list{}{%
+        \setlength{\leftmargin}{\bibhang}%
+        \setlength{\itemindent}{-\leftmargin}%
+        \setlength{\itemsep}{\bibsep}%
+        \setlength{\parsep}{\z@}%
+        }}
+    {\endlist\endminipage}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+%\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=1.2in,     % Length of section titles
+%            marginparsep=.05in,       % Space between titles and text
+%            margin=1in,               % 1 inch margins
+%            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=30.5mm,    % Length of section titles
+            marginparsep=1.5mm,       % Space between titles and text
+            margin=25mm,              % 25mm margins
+            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactitem will be nice.
+\usepackage{paralist}
+
+%for utf8, needs xelatex
+%\usepackage{fontspec}
+%\usepackage{xunicode}
+%\usepackage{xltxtra}
+%font setup
+%Computer Modern Unicode
+%\setromanfont{CMU Serif}
+%\setsansfont{CMU Sans Serif}
+%\setmonofont{CMU Typewriter Text}
+%\setmainfont{CMU Serif}
+
+%free fonts
+%\setromanfont{FreeSerif}
+%\setsansfont{CMU Sans}
+%\setmonofont{CMU Mono}
+%\setmainfont{CMU Serif}
+
+\usepackage[english, greek]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{kerkis}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} \greektext / \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color}
+\usepackage[unicode]{hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+                {\large \bfseries #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+        {\pagebreak[2]\vspace{1.3\baselineskip}%
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \hspace{0in}%
+         \marginpar{\raggedright \scshape #1}#2}
+%\quad\pagebreak[2]}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{compactitem}[#1]}{\end{compactitem}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{compactitem}[#1]}
+        {\end{compactitem}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+%for multiline comments
+\newcommand{\comments}[1]{}
+
+%shorthands, used with pdflatex
+\newcommand{\grt}{\greektext}
+\newcommand{\lat}{\latintext}
+%null when xelatex is used
+%\newcommand{\grt}{}
+%\newcommand{\lat}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\hyphenpenalty=10000
+
+\makeheading{\huge Δημήτριος Π.~Τσιτσιπής}
+
+\section{Πληροφορίες επικοινωνίας}
+%
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+%\newlength{\rcollength}\setlength{\rcollength}{6cm}%
+%
+%\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+\begin{tabular}{ll}
+\textit{Διεύθυνση κατοικίας:} & Μαιζώνος 231 \\
+                              & Πάτρα, 26222\\
+\textit{Τηλέφωνο κατοικίας:}     & 2610361921\\
+\textit{Τηλέφωνο γραφείου:}	& 2610962485\\
+\textit{Κινητό τηλέφωνο:}     &6974605599 \\
+\lat \textit{ E-mail:}  & \lat \href{mailto:mitsarionas@ece.upatras.gr}{mitsarionas@ece.upatras.gr}
+\end{tabular}
+
+
+\section{Ερευνητικά Ενδιαφέροντα}
+%
+Δίκτυα, ενσωματωμένα συστήματα, λειτουργικά συστήματα, γραφικά, γλώσσες προγραμματισμού
+
+\section{Εκπαίδευση}
+%
+\href{http://www.upatras.gr}{\textbf{Πανεπιστήμιο Πατρών}}
+
+\begin{outerlist}
+
+\item[] Υποψήφιος για διδακτορικό δίπλωμα,\\
+        \href{http://www.ece.upatras.gr/}
+             {\textbf{Τμήμα Ηλεκτρολόγων και Τεχνολογίας Υπολογιστών}}
+%             (expected graduation date: August 2010)
+        \begin{innerlist}
+        \item Θέμα διατριβής: \emph{Τεχνικές ασφαλείας σε ασύρματα δίκτυα αισθητήρων}
+%        \item Thesis Proposal: \emph{...}
+%        \item Candidacy Exam: \emph{...}
+        \item Επιβλέπων:
+%              \href{http://www.apel.ee.upatras.gr/the_lab/faculty/koubias_gr.htm}
+                   {Σταύρος Κουμπιάς, Καθηγητής}
+%        \item Area of Study: ...
+        \end{innerlist}
+
+\item[] Μ.Δ.Ε. στα
+        \href{http://www.upatras.gr/hw-sw/}
+             {Ολοκληρωμένα Συστήματα Υλικού και Λογισμικού},\\
+        \href{http://www.ceid.upatras.gr/}
+             {\textbf{Τμήμα Μηχανικών Υπολογιστών και Πληροφορικής}},\\
+	    Δεκέμβριος 2009
+        \begin{innerlist}
+        \item Βαθμός: Άριστα (8.5)
+        \item Θέμα Διπλωματικής: \emph{Υλοποίηση του πρωτοκόλλου \lat S\textsuperscript{2}RP (Secure and Scalable Rekeying Protocol)}
+        \item Επιβλέπων:
+              {Κωνσταντίνος Γκούτης, Καθηγητής}
+        \end{innerlist}
+
+\item[] Πτυχίο,\\
+        \href{http://www.ece.upatras.gr/}
+             {\textbf{Τμήμα Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών}},\\ Νοέμβριος 2007
+        \begin{innerlist}
+        \item Βαθμός: Λίαν Καλώς (7.04)
+        \item Θέμα Διπλωματικής: \emph{Σχεδιασμός κωδικοποιητή ακολουθιών κινούμενων εικόνων \lat(video coder)
+\grt βασισμένου στο μετασχηματισμό \lat wavelet}
+        \item Επιβλέπων:
+              {Στουραΐτης Θάνος, Καθηγητής}
+        \end{innerlist}
+
+\end{outerlist}
+
+\section{Διακρίσεις}
+%
+\href{http://www.epy.gr/}{Ελληνική Εταιρεία Επιστημόνων και Επαγγελματιών Πληροφορικής και Επικοινωνιών (ΕΠΥ)}
+\begin{innerlist}
+\item Βράβευση σε πανελλήνιους διαγωνισμούς Πληροφορικής τα έτη 1995-96, 1996-97, 1997-98
+\item Βράβευση για την 4η θέση σε πανελλήνιο διαγωνισμό Πληροφορικής διοργανωμένο από την ΕΠΥ το 2000-2001 και συμμετοχή στην Εθνική Ομάδα Πληροφορικής.
+\end{innerlist}
+%Βραβείο από το υπουργείο παιδείας για άριστο μέσο όρο (πάνω από 18.5) για καθένα από τα χρόνια μαθητείας (1995-96, 1996-97, 1997-98, 1998-99, 1999-00,   2000-01)
+
+\section{Συμμετοχή σε διαγωνισμούς}
+Ολυμπιάδα Προγραμματισμού \lat( International Olympiad in Informatics (IOI)), \grt Ελσίνκι, 2001.\\
+Βαλκανιάδα Προγραμματισμού \lat(Balkan Olympiad in Informatics (BOI)), \grt Δυρράχιο, 2001.\\
+\lat South European Informatics Championship \grt στο Βελιγράδι το 2001.
+
+\section{Διδακτική Εμπειρία}
+\textbf{Τμήμα Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών}, \\Πανεπιστήμιο~Πατρών
+\begin{outerlist}
+\item[] Επικουρική Διδασκαλία στο εργαστήριο του μαθήματος ``Ψηφιακά ολοκληρωμένα κυκλώματα και συστήματα'', Μάρτιος~2010 - Σήμερα
+\item[] Επικουρική Διδασκαλία στο εργαστήριο του μαθήματος ``Ψηφιακά ολοκληρωμένα κυκλώματα και συστήματα'', Οκτώβριος~2009 - Φεβρουάριος~2010
+\end{outerlist}
+
+\blankline
+
+\textbf{Τμήμα Μηχανικών Ηλεκτρονικών Υπολογιστών και Πληροφορικής}, \\Πανεπιστήμιο~Πατρών
+\begin{outerlist}
+\item[] Δημιουργία εκπαιδευτικού και διδακτικού υλικού του εργαστηριακού μαθήματος ``Βασικά Ηλεκτρονικά``, Μάρτιος~2008 - Ιούνιος~2008
+\item[] Επικουρική διδασκαλία στο εργαστηρίο του μαθήματος ''Τεχνολογία και Αρχιτεκτονική Υπολογιστών'', Μάρτιος~2008 - Ιούνιος~2008
+\item[] Επικουρική διδασκαλία στο εργαστηρίο του μαθήματος ``Μικροηλεκτρονική``, Νοέμβριος~2007 - Φεβρουάριος~2008
+\end{outerlist}
+
+\section{Δημοσιεύσεις}
+%Σε συνέδρια\\
+\lat
+\begin{bibsection}
+%\begin{outerlist}
+    \item Anastasopoulos, A.; Tsitsipis, D,; Giannoulis, S.; Koubias, S.; 
+Implementation and Evaluation of a Hybrid Network utilizing TinyOS-based systems and Ethernet
+ \emph{(2007) IEEE Symposium on Emerging Technologies and Factory Automation, ETFA,} art. no. 4416801, pp. 441-447.
+%\end{outerlist}
+\end{bibsection}
+\grt
+
+\section{Επαγγελματική Εμπειρία}
+%
+Ανάπτυξη προγράμματος διαχείρισης δρομολογίων βυτιοφόρων για Δ.Ε.Υ.Α.
+
+
+\section{Τεχνικά Προσόντα}
+%
+\begin{lonelist}
+\lat
+\item [] \grt Προγραμματισμός: \lat C, C++,C\#, Assembly, Python, Java, Pascal, Perl, UNIX
+        shell scripting, GNU make, SQL, Revision Control Systems (Git, Mercurial, CVS, SVN) \grt και άλλα
+
+\item [] \grt Σχεδιασμός Υλικού: \lat VHDL, SystemC
+
+\item [] \grt Επιστημονικός Υπολογισμός: \lat Matlab
+
+\item [] \grt Έλεγχος και Εξομοίωση Συστημάτων: \lat Simulink, Stateflow
+
+\item [] \grt Ενσωματωμένα Συστήματα: \lat Contiki OS, TinyOS, TelosB platorm, Crossbow IRIS platorm, Texas Instruments C67xx DSP, Analog Devices Blackfin DSP
+
+%\item [] Information Technology: Networking (UDP, TCP, ARP, DNS, Dynamic
+%        routing), Service (Apache, SQL, MediaWiki, POP, IMAP, SMTP,
+%        application-specific daemon design)
+
+\item [] \lat Computer-Aided Design: PSpice (OrCad, Cadence), Design Architect (Mentor Graphics), Leonardo Spectrum (Mentor Graphics), 
+ModelSim (Mentor Graphics), MicroWind (Insa), AutoCAD
+
+\item[] \grt Λειτουργικά Συστήματα: \lat Linux, BSD, Solaris, QNX, Microsoft Windows, DOS
+
+\item[] \grt Εφαρμογές: \lat \TeX{} (\LaTeX{}, B\textsc{ib}\TeX{}),
+        \grt εφαρμογές γραφείου \lat (Microsoft Office, OpenOffice), Vim
+
+\end{lonelist}
+
+\grt
+\section{Λοιπά προσόντα}
+\begin{lonelist}
+ \item [] Γλώσσες
+\begin{innerlist}
+ \item [] Αγγλικά \lat(Certificate of Proficiency in English, - Cambridge \grt και \lat Michigan) \grt
+ \item [] Γερμανικά \lat (Zertifikat Deutch - Goethe Insitut)
+\end{innerlist}
+\end{lonelist}
+
+\section{Άλλα ενδιαφέροντα}
+\grt Τεχνολογία, \lat PC Games, \grt ταξίδια, τέννις, σκι, ποδηλασία, μουσική
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
